@@ -9,19 +9,15 @@ const Comment = new Schema({
     type: String,
     required: true,
   },
-  postedBy: {
+  postCommentedOn: {
     type: Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Post",
     required: true,
   },
   postedTime: {
     type: Date,
     required: true,
     default: Date.now,
-  },
-  comments: {
-    type: Schema.Types.ObjectId,
-    ref: "Comment",
   },
 });
 

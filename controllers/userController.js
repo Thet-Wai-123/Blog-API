@@ -57,14 +57,17 @@ exports.log_in_POST = [
     jwt.sign(
       { user: user },
       process.env.secret_Key,
-      { expiresIn: "1d" },
+      //{ expiresIn: "1d" },
       (err, token) => {
-        console.log("Here");
-        localStorage.setItem(token);
-        res.json({
-          token: token,
-        });
-        //instead of this, store this token and redirect to /blog
+        if (err) {
+          return res.status(500);
+        } else {
+          //localStorage.setItem(token); test out if this stores in a web browser
+          res.json({
+            token: token,
+            redirect_path: "/blog"
+          });
+        }
       }
     );
   }),
