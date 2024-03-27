@@ -5,7 +5,12 @@ const Comment = require("../models/Comment");
 const mongoose = require("mongoose");
 
 exports.post_getAll = asyncHandler(async (req, res, next) => {
-  const posts = await Post.find();
+  const posts = await Post.find(
+    { isPublished: true },
+    "title content postedTime postedBy comments"
+  )
+    .populate({ path: "postedBy", select: "username" })
+    .populate({ path: "comments", select: "content" });
   res.json({
     posts: posts,
   });
@@ -71,5 +76,5 @@ exports.post_delete = asyncHandler(async (req, res, next) => {
     Post.findByIdAndDelete(req.params.postID),
     Comment.deleteMany({ postCommentedOn: req.params.postID }),
   ]);
-  res.json({message: "deleted successfully"})
+  res.json({ message: "deleted successfully" });
 });

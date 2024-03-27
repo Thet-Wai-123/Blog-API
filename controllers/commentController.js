@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 const Comment = require("../models/Comment");
+const Post = require("../models/Post");
 const mongoose = require("mongoose");
 
 exports.comment_create = [
@@ -18,7 +19,12 @@ exports.comment_create = [
         postedTime: Date.now(),
       });
       comment.save();
-      res.json("Commented successfully")
+
+      await Post.findByIdAndUpdate(req.params.postID, {
+        $push: { comments: comment },
+      });
+      
+      res.json("Commented successfully");
     }
   }),
 ];

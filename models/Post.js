@@ -25,10 +25,10 @@ const Post = new Schema({
     required: true,
     default: Date.now,
   },
-  comments: {
+  comments: [{
     type: Schema.Types.ObjectId,
     ref: "Comment",
-  },
+  }],
   isPublished : {
     type: Boolean,
     required: true,

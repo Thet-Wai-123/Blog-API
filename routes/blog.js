@@ -29,6 +29,12 @@ function verifyToken(req, res, next) {
   });
 }
 
+
+router.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  next();
+});
+
 /* GET users listing. */
 router.get("/", function (req, res, next) {
   res.json({
